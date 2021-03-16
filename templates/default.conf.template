@@ -1,0 +1,17 @@
+upstream api {
+  server 192.168.1.111:8081; 
+}
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    root dist;
+    index index.html;
+
+    location / {
+      try_files $uri $uri/ = 404;
+    }
+    location /api/ {
+      proxy_pass http://api/;   
+    }
+}
